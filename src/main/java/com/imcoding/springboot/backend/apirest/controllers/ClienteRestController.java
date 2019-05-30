@@ -1,24 +1,16 @@
 package com.imcoding.springboot.backend.apirest.controllers;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -40,6 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.imcoding.springboot.backend.apirest.models.entity.Cliente;
+import com.imcoding.springboot.backend.apirest.models.entity.Region;
 import com.imcoding.springboot.backend.apirest.models.services.IClienteService;
 import com.imcoding.springboot.backend.apirest.models.services.IUploadFileService;
 
@@ -54,8 +47,6 @@ public class ClienteRestController {
 	@Autowired
 	private IUploadFileService uploadService;
 	
-	private final Logger log = LoggerFactory.getLogger(ClienteRestController.class);
-
 	@GetMapping("/clientes")
 	public List<Cliente> index() {
 		return clienteService.findAll();
@@ -151,6 +142,7 @@ public class ClienteRestController {
 			clienteActual.setNombre(cliente.getNombre());
 			clienteActual.setEmail(cliente.getEmail());
 			clienteActual.setCreatedAt(cliente.getCreatedAt());
+			clienteActual.setRegion(cliente.getRegion());
 
 			clienteUpdated = clienteService.save(clienteActual);
 
@@ -238,4 +230,10 @@ public class ClienteRestController {
 		
 		return new ResponseEntity<Resource>(recurso, cabecera, HttpStatus.OK);
 	}
+	
+	@GetMapping("/clientes/regiones")
+	public List<Region> listarRegiones() {
+		return clienteService.findAllRegiones();
+	}
+	
 }

@@ -5,9 +5,12 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -16,38 +19,45 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
-@Table(name="clientes")
+@Table(name = "clientes")
 public class Cliente implements Serializable {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	
+
 	@NotEmpty(message = "No puede estar vacío")
-	@Size(min=4, max=12)
-	@Column(nullable=false)
+	@Size(min = 4, max = 12)
+	@Column(nullable = false)
 	private String nombre;
-	
+
 	@NotEmpty(message = "No puede estar vacío")
 	private String apellido;
-	
+
 	@NotEmpty(message = "No puede estar vacío")
 	@Email
-	@Column(nullable=false, unique=true)
+	@Column(nullable = false, unique = true)
 	private String email;
-	
+
 	@NotNull(message = "No puede estar vacío")
-	@Column(name="created_at")
+	@Column(name = "created_at")
 	@Temporal(TemporalType.DATE)
 	private Date createdAt;
-	
+
 	private String foto;
-	
-	/*@PrePersist
-	public void prePersist() {
-		createdAt = new Date();
-	}*/
+
+	@NotNull(message="La región no puede estar vacía")
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="region_id")
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+	private Region region;
+
+	/*
+	 * @PrePersist public void prePersist() { createdAt = new Date(); }
+	 */
 
 	public long getId() {
 		return id;
@@ -88,8 +98,7 @@ public class Cliente implements Serializable {
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
-	
-	
+
 	public String getFoto() {
 		return foto;
 	}
@@ -98,7 +107,13 @@ public class Cliente implements Serializable {
 		this.foto = foto;
 	}
 
+	public Region getRegion() {
+		return region;
+	}
 
+	public void setRegion(Region region) {
+		this.region = region;
+	}
 
 	/**
 	 * 
