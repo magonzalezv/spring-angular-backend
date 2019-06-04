@@ -31,3 +31,19 @@ INSERT INTO roles (nombre) VALUES ('ROLE_ADMIN');
 INSERT INTO usuarios_roles (usuario_id, roles_id) VALUES (1, 1);
 INSERT INTO usuarios_roles (usuario_id, roles_id) VALUES (2, 2);
 INSERT INTO usuarios_roles (usuario_id, roles_id) VALUES (2, 1);
+
+INSERT INTO productos (nombre, precio, created_at) VALUES ('Portatil', 850000, NOW());
+INSERT INTO productos (nombre, precio, created_at) VALUES ('Mouse', 15000, NOW());
+INSERT INTO productos (nombre, precio, created_at) VALUES ('Teclado', 32000, NOW());
+INSERT INTO productos (nombre, precio, created_at) VALUES ('CPU', 1500000, NOW());
+INSERT INTO productos (nombre, precio, created_at) VALUES ('Monitor', 400000, NOW());
+INSERT INTO productos (nombre, precio, created_at) VALUES ('Smartphone', 1800000, NOW());
+
+INSERT INTO facturas (descripcion, observacion, cliente_id, created_at) VALUES ('Factura equipos de oficina', null, 1, NOW());
+INSERT INTO facturas_items (cantidad, factura_id, producto_id) VALUES (1, 1, 1);
+INSERT INTO facturas_items (cantidad, factura_id, producto_id) VALUES (2, 1, 3);
+INSERT INTO facturas_items (cantidad, factura_id, producto_id) VALUES (1, 1, 4);
+INSERT INTO facturas_items (cantidad, factura_id, producto_id) VALUES (1, 1, 2);
+
+
+
